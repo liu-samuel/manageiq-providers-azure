@@ -101,7 +101,8 @@ class ManageIQ::Providers::Azure::Inventory::Parser::CloudManager < ManageIQ::Pr
 
       instance_hardware(persister_instance, instance, vm_size)
       instance_operating_system(persister_instance, instance)
-
+      require 'byebug'
+      byebug
       vm_and_template_labels(persister_instance, instance['tags'] || [])
       vm_and_template_taggings(persister_instance, map_labels('VmAzure', instance['tags'] || []))
     end
@@ -217,7 +218,10 @@ class ManageIQ::Providers::Azure::Inventory::Parser::CloudManager < ManageIQ::Pr
   end
 
   def vm_and_template_labels(resource, tags)
+    require 'byebug'
+    byebug
     tags.each do |tag|
+      p tag
       persister
         .vm_and_template_labels
         .find_or_build_by(
@@ -230,20 +234,27 @@ class ManageIQ::Providers::Azure::Inventory::Parser::CloudManager < ManageIQ::Pr
           :value   => tag.second,
         )
     end
+    byebug
   end
 
   # Returns array of InventoryObject<Tag>.
   def map_labels(model_name, labels)
+    require 'byebug'
+    byebug
     label_hashes = labels.collect do |tag|
       { :name => tag.first, :value => tag.second }
     end
+    byebug
     persister.tag_mapper.map_labels(model_name, label_hashes)
   end
 
   def vm_and_template_taggings(resource, tags_inventory_objects)
+    require 'byebug'
+    byebug
     tags_inventory_objects.each do |tag|
       persister.vm_and_template_taggings.build(:taggable => resource, :tag => tag)
     end
+    byebug
   end
 
   def stacks

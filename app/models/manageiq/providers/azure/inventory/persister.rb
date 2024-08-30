@@ -21,6 +21,8 @@ class ManageIQ::Providers::Azure::Inventory::Persister < ManageIQ::Providers::In
   end
 
   def initialize_inventory_collections
+    require 'byebug'
+    byebug
     initialize_tag_mapper
     initialize_cloud_inventory_collections
     initialize_network_inventory_collections
